@@ -398,7 +398,7 @@ def port_create_gre(br, port, id, remote):
     '''
     if not 0 <= id < 2**32:
         return False
-    elif not __salt__['dig.check_ip'](remote):
+    elif not salt.utils.network.is_ip(remote):
         return False
     elif not bridge_exists(br):
         return False
@@ -437,7 +437,7 @@ def port_create_vxlan(br, port, id, remote, dst_port=None):
     dst_port = ' options:dst_port=' + str(dst_port) if 0 < dst_port <= 65535 else ''
     if not 0 <= id < 2**64:
         return False
-    elif not __salt__['dig.check_ip'](remote):
+    elif not salt.utils.network.is_ip(remote):
         return False
     elif not bridge_exists(br):
         return False

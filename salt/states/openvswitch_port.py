@@ -2,7 +2,7 @@
 '''
 Management of Open vSwitch ports.
 '''
-
+from salt.utils import network
 
 def __virtual__():
     '''
@@ -120,7 +120,7 @@ def present(name, bridge, type=None, id=None, remote=None, dst_port=None, intern
         if not 0 <= id <= 2**32:
             ret['result'] = False
             ret['comment'] = comments['comment_gre_invalid_id']
-        elif not __salt__['dig.check_ip'](remote):
+        elif not network.is_ip(remote):
             ret['result'] = False
             ret['comment'] = comments['comment_invalid_ip']
         elif interface_options and interface_type and name in port_list:
@@ -139,7 +139,7 @@ def present(name, bridge, type=None, id=None, remote=None, dst_port=None, intern
         if not 0 <= id <= 2**64:
             ret['result'] = False
             ret['comment'] = comments['comment_vxlan_invalid_id']
-        elif not __salt__['dig.check_ip'](remote):
+        elif not network.is_ip(remote):
             ret['result'] = False
             ret['comment'] = comments['comment_invalid_ip']
         elif interface_options and interface_type and name in port_list:
